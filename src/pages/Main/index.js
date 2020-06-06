@@ -1,9 +1,34 @@
 import React from "react";
+import * as S from "./styles";
 
 const MainPage = () => (
-  <main>
-    <h1>Hello World</h1>
-  </main>
+  <S.PageWrapper>
+    <S.FormWrapper>
+      <S.FormTitle>MGLT Stops Calculator</S.FormTitle>
+      <S.InputWrapper>
+        <S.InputLabel>Enter your distance</S.InputLabel>
+        <S.InputRow>
+          <S.Input type="text" placeholder="Distance in mega lights" />
+          <S.Button>Search</S.Button>
+        </S.InputRow>
+      </S.InputWrapper>
+    </S.FormWrapper>
+    <S.ResultWrapper>
+      <S.ResultHeaderWrapper>
+        <S.ResultTitle>Results</S.ResultTitle>
+        <S.ResultInput type="text" placeholder="Search by name" />
+        <span>Order</span>
+      </S.ResultHeaderWrapper>
+      <div>
+        <ul>
+          <li>Name</li>
+          <li>Model</li>
+          <li>Class</li>
+          <li>Stops</li>
+        </ul>
+      </div>
+    </S.ResultWrapper>
+  </S.PageWrapper>
 );
 
 export default MainPage;
