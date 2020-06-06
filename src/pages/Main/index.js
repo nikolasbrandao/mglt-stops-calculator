@@ -15,9 +15,8 @@ const MainPage = () => (
     </S.FormWrapper>
     <S.ResultWrapper>
       <S.ResultHeaderWrapper>
-        <S.ResultTitle>Results</S.ResultTitle>
         <S.ResultInput type="text" placeholder="Search by name" />
-        <span>Order</span>
+        <S.ResultTitle>Results</S.ResultTitle>
       </S.ResultHeaderWrapper>
       <div>
         <ul>
