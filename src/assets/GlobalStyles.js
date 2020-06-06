@@ -28,6 +28,8 @@ footer, header, hgroup, menu, nav, section {
 }
 body {
 	line-height: 1;
+	font-family: 'Montserrat', sans-serif;
+	background-color: ${({ theme }) => theme.bgColor}
 }
 ol, ul {
 	list-style: none;
