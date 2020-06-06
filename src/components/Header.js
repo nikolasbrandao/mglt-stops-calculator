@@ -18,7 +18,7 @@ const Title = styled.h1`
 const Header = () => {
   return (
     <HeaderWrapper>
-      <Title>MGLT Stops Calculator</Title>
+      <Title>SWAPP</Title>
     </HeaderWrapper>
   );
 };
