@@ -2,19 +2,23 @@ import React from "react";
 import styled from "styled-components";
 
 const HeaderWrapper = styled.header`
+  display: flex;
+  align-items: center;
+  justify-content: center;
   width: 100%;
-  height: 2em;
-  background-color: #000;
+  padding: 0.5em 0;
+  background-color: ${({ theme }) => theme.secondaryFontColor};
 `;
 
 const Title = styled.h1`
-  color: #fff;
+  color: ${({ theme }) => theme.secondaryColor};
+  font-size: 2em;
 `;
 
 const Header = () => {
   return (
     <HeaderWrapper>
-      <Title>MGLT Stops calculator</Title>
+      <Title>MGLT Stops Calculator</Title>
     </HeaderWrapper>
   );
 };
