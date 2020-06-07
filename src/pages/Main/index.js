@@ -10,10 +10,14 @@ const MainPage = () => {
   const [loading, setLoading] = useState(true);
   const [loadingMessage, setLoadingMessage] = useState("Load all Startships");
 
-  useEffect(() => {
-    const dataStarShips = StarshipsService.findAll();
-    setStarships(dataStarShips.results);
+  const getAllData = async () => {
+    const dataStarShips = await StarshipsService.findAll();
     setLoading(false);
+    setStarships(dataStarShips);
+  };
+
+  useEffect(() => {
+    getAllData();
   }, []);
 
   const handleButton = () => {
@@ -44,22 +48,27 @@ const MainPage = () => {
     setInputDistance(mglt);
   };
 
-  const renderResult = () => (
-    <>
-      <S.ResultHeaderWrapper>
-        <S.ResultInput type="text" placeholder="Search by name" />
-        <div>
-          <S.ResultTitle>
-            {Number.parseInt(mlgtSearch || 0).toLocaleString()}
-          </S.ResultTitle>
-          <S.ResultTitle>Distance search</S.ResultTitle>
-        </div>
-      </S.ResultHeaderWrapper>
-      {starships.map((starship) => (
-        <StarshipCard key={starship.url} infos={starship} />
-      ))}
-    </>
-  );
+  const renderResult = () => {
+    if (mlgtSearch) {
+      return (
+        <>
+          <S.ResultHeaderWrapper>
+            <S.ResultInput type="text" placeholder="Search by name" />
+            <div>
+              <S.ResultTitle>
+                {Number.parseInt(mlgtSearch || 0).toLocaleString()}
+              </S.ResultTitle>
+              <S.ResultTitle>Distance search</S.ResultTitle>
+            </div>
+          </S.ResultHeaderWrapper>
+          {starships.map((starship) => (
+            <StarshipCard key={starship.url} infos={starship} />
+          ))}
+        </>
+      );
+    }
+    return <S.EmptyMessage>Define a distance to calculate</S.EmptyMessage>;
+  };
 
   return (
     <S.PageWrapper>
@@ -74,7 +83,7 @@ const MainPage = () => {
               onChange={handleMgltInput}
               value={inputDistance}
             />
-            <S.Button onClick={handleButton}>Search</S.Button>
+            <S.Button onClick={handleButton}>Show</S.Button>
           </S.InputRow>
         </S.InputWrapper>
       </S.FormWrapper>

@@ -75,7 +75,6 @@ export const Button = styled.button`
   border: 1px solid ${({ theme }) => theme.secondaryFontColor};
   border-left: none;
   background-color: ${({ theme }) => theme.secondaryFontColor};
-  padding: 0 1em;
   border-radius: 0 30px 30px 0px;
   transition: 0.3s;
   &:focus {
@@ -140,6 +139,12 @@ export const LoadingIcon = styled(Loader)`
 
 export const LoadingMessage = styled.h1`
   color: ${({ theme }) => theme.secondaryColor};
+`;
+
+export const EmptyMessage = styled.p`
+  color: ${({ theme }) => theme.secondaryColor};
+  text-align: center;
+  margin-top: 1em;
 `;
 
 export const ResultInput = styled.input`
