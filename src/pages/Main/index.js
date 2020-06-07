@@ -1,16 +1,30 @@
 import React, { useState, useEffect } from "react";
 import * as S from "./styles";
 import StarshipCard from "../../components/StarshipCard";
-import { StarshipsService } from "../../services";
+import { StarshipsService, MgltCalcService } from "../../services";
 
 const MainPage = () => {
+  const [distance, setDistance] = useState("");
   const [starships, setStarships] = useState([]);
 
-  useEffect(() => {
+  // useEffect(() => {}, []);
+
+  const handleButton = () => {
     const dataStarShips = StarshipsService.findAll();
-    setStarships(dataStarShips.results);
-    console.log(dataStarShips.results);
-  }, []);
+    const calculateData = dataStarShips.results.map((starship) => {
+      const stops = MgltCalcService.calculateStopsByDistance(
+        distance,
+        starship.MGLT,
+        starship.consumables
+      );
+      return { ...starship, stops };
+    });
+    setStarships(calculateData);
+  };
+
+  const handleMgltInput = (event) => {
+    setDistance(event.target.value);
+  };
 
   return (
     <S.PageWrapper>
@@ -19,8 +33,13 @@ const MainPage = () => {
         <S.InputWrapper>
           <S.InputLabel>Enter your distance</S.InputLabel>
           <S.InputRow>
-            <S.Input type="text" placeholder="Distance in mega lights" />
-            <S.Button>Search</S.Button>
+            <S.Input
+              type="text"
+              placeholder="Distance in mega lights"
+              onChange={handleMgltInput}
+              value={distance}
+            />
+            <S.Button onClick={handleButton}>Search</S.Button>
           </S.InputRow>
         </S.InputWrapper>
       </S.FormWrapper>

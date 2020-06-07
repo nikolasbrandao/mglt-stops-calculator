@@ -93,7 +93,7 @@ const Card = ({ infos: starship }) => (
 
       <DetailsWrapper>
         <StopsWrapper>
-          <StopsTitle>000</StopsTitle>
+          <StopsTitle>{starship.stops || "Error"}</StopsTitle>
           <StopsSubTitle>Stops</StopsSubTitle>
         </StopsWrapper>
         <div>
