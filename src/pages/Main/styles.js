@@ -98,8 +98,9 @@ export const ResultWrapper = styled.section`
 
 export const ResultHeaderWrapper = styled.div`
   display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   padding: 0.5em 0;
 `;
 

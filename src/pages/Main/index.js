@@ -53,13 +53,10 @@ const MainPage = () => {
       return (
         <>
           <S.ResultHeaderWrapper>
-            <S.ResultInput type="text" placeholder="Search by name" />
-            <div>
-              <S.ResultTitle>
-                {Number.parseInt(mlgtSearch || 0).toLocaleString()}
-              </S.ResultTitle>
-              <S.ResultTitle>Distance search</S.ResultTitle>
-            </div>
+            <S.ResultTitle>
+              {Number.parseInt(mlgtSearch || 0).toLocaleString()}
+            </S.ResultTitle>
+            <S.ResultTitle>Distance search</S.ResultTitle>
           </S.ResultHeaderWrapper>
           {starships.map((starship) => (
             <StarshipCard key={starship.url} infos={starship} />
