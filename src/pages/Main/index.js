@@ -4,27 +4,62 @@ import StarshipCard from "../../components/StarshipCard";
 import { StarshipsService, MgltCalcService } from "../../services";
 
 const MainPage = () => {
-  const [distance, setDistance] = useState("");
+  const [inputDistance, setInputDistance] = useState("");
+  const [mlgtSearch, setMlgtSearch] = useState("");
   const [starships, setStarships] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [loadingMessage, setLoadingMessage] = useState("Load all Startships");
 
-  // useEffect(() => {}, []);
+  useEffect(() => {
+    const dataStarShips = StarshipsService.findAll();
+    setStarships(dataStarShips.results);
+    setLoading(false);
+  }, []);
 
   const handleButton = () => {
-    const dataStarShips = StarshipsService.findAll();
-    const calculateData = dataStarShips.results.map((starship) => {
-      const stops = MgltCalcService.calculateStopsByDistance(
-        distance,
-        starship.MGLT,
-        starship.consumables
-      );
-      return { ...starship, stops };
-    });
-    setStarships(calculateData);
+    if (loading) {
+      return;
+    } else {
+      setLoading(true);
+      setLoadingMessage("Calculate stops");
+      const calculateData = starships.map((starship) => {
+        const stops = MgltCalcService.calculateStopsByDistance(
+          inputDistance,
+          starship.MGLT,
+          starship.consumables
+        );
+        return { ...starship, stops };
+      });
+
+      setStarships(calculateData);
+      setMlgtSearch(inputDistance);
+      setLoadingMessage("");
+      setInputDistance("");
+      setLoading(false);
+    }
   };
 
   const handleMgltInput = (event) => {
-    setDistance(event.target.value);
+    const mglt = event.target.value;
+    setInputDistance(mglt);
   };
+
+  const renderResult = () => (
+    <>
+      <S.ResultHeaderWrapper>
+        <S.ResultInput type="text" placeholder="Search by name" />
+        <div>
+          <S.ResultTitle>
+            {Number.parseInt(mlgtSearch || 0).toLocaleString()}
+          </S.ResultTitle>
+          <S.ResultTitle>Distance search</S.ResultTitle>
+        </div>
+      </S.ResultHeaderWrapper>
+      {starships.map((starship) => (
+        <StarshipCard key={starship.url} infos={starship} />
+      ))}
+    </>
+  );
 
   return (
     <S.PageWrapper>
@@ -37,23 +72,21 @@ const MainPage = () => {
               type="text"
               placeholder="Distance in mega lights"
               onChange={handleMgltInput}
-              value={distance}
+              value={inputDistance}
             />
             <S.Button onClick={handleButton}>Search</S.Button>
           </S.InputRow>
         </S.InputWrapper>
       </S.FormWrapper>
       <S.ResultWrapper>
-        <S.ResultHeaderWrapper>
-          <S.ResultInput type="text" placeholder="Search by name" />
-          <div>
-            <S.ResultTitle>{starships.length}</S.ResultTitle>
-            <S.ResultTitle>Results</S.ResultTitle>
-          </div>
-        </S.ResultHeaderWrapper>
-        {starships.map((starship) => (
-          <StarshipCard key={starship.url} infos={starship} />
-        ))}
+        {loading ? (
+          <S.LoadingWrapper>
+            <S.LoadingIcon />
+            <S.LoadingMessage>{loadingMessage}</S.LoadingMessage>
+          </S.LoadingWrapper>
+        ) : (
+          renderResult()
+        )}
       </S.ResultWrapper>
     </S.PageWrapper>
   );

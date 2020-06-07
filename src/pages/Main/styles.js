@@ -1,4 +1,5 @@
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
+import { Loader } from "@styled-icons/boxicons-regular/Loader";
 
 export const PageWrapper = styled.main`
   display: flex;
@@ -107,6 +108,37 @@ export const ResultTitle = styled.h3`
   font-size: 0.6em;
   text-align: center;
   font-weight: 500;
+  color: ${({ theme }) => theme.secondaryColor};
+  margin-bottom: 0.3em;
+`;
+
+export const LoadingWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: auto;
+`;
+
+const rotate = keyframes`
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+`;
+
+export const LoadingIcon = styled(Loader)`
+  color: ${({ theme }) => theme.secondaryColor};
+  width: 2em;
+  margin: 1em 0;
+  animation: ${rotate} 2s linear infinite;
+`;
+
+export const LoadingMessage = styled.h1`
   color: ${({ theme }) => theme.secondaryColor};
 `;
 
