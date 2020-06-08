@@ -1,68 +1,105 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# MGLT Stops Calculator
 
-## Available Scripts
+## Sobre o repositório
 
-In the project directory, you can run:
+Este repositório foi criado como solução para o desafio da Nata House para a vaga de Desenvolvedor Frontend, a descrição completa do desafio pode ser encontrada [aqui](https://www.notion.so/Technical-test-nata-house-b41bd08b949d4cf194a18322b28bf09b).
 
-### `yarn start`
+## Iniciando
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+A base do desafio é criar uma SPA que conectado a Star Wars Api [SWAPI](https://swapi.dev/) permita que nosso usuário faça o calculo de quantas paradas seriam necessarias para viajar uma determinada distancia, medida em Megaluz(Megalights).
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+Para o desafio optei por utilizar React e construir uma Single Page Application algumas bibliotecas para chegar ao resultado esperado e entregar uma boa experiência para o usuário.
 
-### `yarn test`
+## Solução
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+|                  Desktop                   |                  Mobile                  |
+| :----------------------------------------: | :--------------------------------------: |
+| ![Desktop](./assets-doc/swapp-desktop.png) | ![Mobile](./assets-doc/swapp-mobile.PNG) |
 
-### `yarn build`
+A página ao iniciar busca as naves na base de dados da SWAPI e persiste os dados no LocalStorage (para funcionar posteriormente offline) e assim que o usuário define a distancia calcular é entregue uma lista com as naves, informações básicas e a quantidade de paradas necessárias para realizar o trajeto.
 
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## Cálculo de Megaluz
 
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
+A Megaluz é uma unidade de distância utilizada no universo de Star Wars como base para medir a velocidade de deslocamento das naves no espaço.
+A database da SWAPI contém uma base ampla de naves com a velocidade de deslocamento calculada em MGLT/hora, utilizamos essa informação como base do cálculo.
+Outra informação de extrema relevância é o período máximo de tempo que a nave pode fornecer consumíveis para toda a tripulação sem a necessidade de reabastecimento, podendo ser medida em horas, dias, meses e anos.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+Para realizar o cálculo primeiro transformamos a capacidade de carga em horas, em seguida dividimos a distância pela velocidade da nave, para no fim dividir a capacidade de carga (em horas), pelo tempo gasto para percorrer a distância (em horas) o resultado arredondado para baixo é a nossa quantidade de paradas.
 
-### `yarn eject`
+### Pré requisitos
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+Para utilizar os projetos é necessário ter o Node instalado na máquina, o projeto foi criado utilizando node na versão 12.16.3 download [aqui](https://nodejs.org/en/).
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+O projeto utilizou como base de sua criação o create react app.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+## Instalação
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+Para rodar o projeto basta utilizar os comandos abaixo:
 
-## Learn More
+```bash
+  $ npm install
+  # ou caso utilize yarn
+  $ yarn install
+```
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+## Rodando a aplicação
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+```bash
+# Android
+$ npm start
+# ou caso utilize yarn
+$ yarn start
+```
 
-### Code Splitting
+O projeto utiliza além do react, as seguintes bibliotecas:
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
+- Axios (recuperar os dados da Api)
+- Moment (para calcular o periodo de abastecimento das naves)
+- React Router Dom (gerenciar a navegação)
+- Redux & React Redux (estado global para a aplicação)
+- Redux Persist (persistir dados da página no localstorage)
+- Styled Components (auxiliar na criação dos componentes, estilos, e temas)
+- Styled Icons (opções de ícones para a aplicação)
 
-### Analyzing the Bundle Size
+## Estrutura do projeto
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
+    src/
+      -assets/
+      -components/
+      -pages/
+        -Main/
+      -redux/
+      -routes/
+      -services/
 
-### Making a Progressive Web App
+### assets
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
+Pasta para a definicação do tema padrão da nossa aplicação, resetar e aplicar os estilos globais no css.
 
-### Advanced Configuration
+### components
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
+Nesse diretório ficam os componentes que podem ser compartilhados no nosso projeto, componentes 'comuns' para todo o projeto.
 
-### Deployment
+### pages
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
+O diretório onde ficam armazenadas as páginas, cada página fica dentro do seu respectivo diretório, a página tem como principal responsabilidade buscar e tratar dados (através do services e redux) para serem repassados para os componentes.
 
-### `yarn build` fails to minify
+##### Observação
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+Caso a pagina necessite de estilos própios eles são encontrados no arquivos _styles.js_ que ficam dentro do diretório da página e não devem ser importados por nenhuma outra página, caso isso ocorra ele deve ser deslocado para o diretório \_components- e virar dependência de ambas as páginas.
+
+### redux
+
+A pasta contém a configuração da nossa store, da biblioteca redux-persist.
+O projeto utiliza o conceito a estrutura do Redux com o padrão Duck, nesse padrão agregamos as _actions_, _reducers_ e _types_ em um único arquivo, caso queira conhecer mais sobre o padrão sugiro os links:
+
+- [Ducks Modular Redux](https://github.com/erikras/ducks-modular-redux)
+- [Scaling your Redux App with ducks](https://www.freecodecamp.org/news/scaling-your-redux-app-with-ducks-6115955638be/)
+
+### routes
+
+Organização das rotas da aplicação utilizando react router dom.
+
+### services
+
+O diretório services armazena os arquivos responsáveis por recuperar e enviar dados para nossas API's.
