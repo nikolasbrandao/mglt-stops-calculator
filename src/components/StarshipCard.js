@@ -34,7 +34,6 @@ const InfosWrapper = styled.div`
 
 const DetailsWrapper = styled.div`
   display: flex;
-  flex-wrap: wrap-reverse;
   width: 100%;
   flex-direction: row;
   justify-content: space-between;

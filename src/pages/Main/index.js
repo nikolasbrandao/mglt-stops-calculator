@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import * as S from "./styles";
 import StarshipCard from "../../components/StarshipCard";
 import { StarshipsService, MgltCalcService } from "../../services";
+import { addStarships } from "../../redux/Starships";
 
 const MainPage = () => {
   const [inputDistance, setInputDistance] = useState("");
@@ -9,16 +11,20 @@ const MainPage = () => {
   const [starships, setStarships] = useState([]);
   const [loading, setLoading] = useState(true);
   const [loadingMessage, setLoadingMessage] = useState("Load all Startships");
+  const starShipList = useSelector((state) => state.starshipsReducer);
+  const dispatch = useDispatch();
 
-  const getAllData = async () => {
+  const getStarships = async () => {
     const dataStarShips = await StarshipsService.findAll();
-    setLoading(false);
-    setStarships(dataStarShips);
+    dispatch(addStarships(dataStarShips));
   };
 
   useEffect(() => {
-    getAllData();
-  }, []);
+    if (starShipList.length === 0) {
+      getStarships();
+    }
+    setLoading(false);
+  }, [getStarships, starShipList.length]);
 
   const handleButton = () => {
     if (loading) {
@@ -26,12 +32,13 @@ const MainPage = () => {
     } else {
       setLoading(true);
       setLoadingMessage("Calculate stops");
-      const calculateData = starships.map((starship) => {
+      const calculateData = starShipList.map((starship) => {
         const stops = MgltCalcService.calculateStopsByDistance(
           inputDistance,
           starship.MGLT,
           starship.consumables
         );
+        console.log({ ...starship, stops });
         return { ...starship, stops };
       });
 
@@ -58,9 +65,11 @@ const MainPage = () => {
             </S.ResultTitle>
             <S.ResultTitle>Distance search</S.ResultTitle>
           </S.ResultHeaderWrapper>
-          {starships.map((starship) => (
-            <StarshipCard key={starship.url} infos={starship} />
-          ))}
+          <S.ResultBodyWrapper>
+            {starships.map((starship) => (
+              <StarshipCard key={starship.url} infos={starship} />
+            ))}
+          </S.ResultBodyWrapper>
         </>
       );
     }

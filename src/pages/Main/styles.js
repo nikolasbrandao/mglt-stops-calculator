@@ -17,6 +17,9 @@ export const FormWrapper = styled.section`
   padding: 0.6em;
   background-color: ${({ theme }) => theme.primaryColor};
   padding-bottom: 3em;
+  @media (min-width: 768px) {
+    width: 40vw;
+  }
 `;
 
 export const FormTitle = styled.h2`
@@ -94,6 +97,9 @@ export const ResultWrapper = styled.section`
   padding: 0.6em;
   background-color: ${({ theme }) => theme.secondaryFontColor};
   padding-bottom: 3em;
+  @media (min-width: 768px) {
+    width: 70vw;
+  }
 `;
 
 export const ResultHeaderWrapper = styled.div`
@@ -104,12 +110,28 @@ export const ResultHeaderWrapper = styled.div`
   padding: 0.5em 0;
 `;
 
+export const ResultBodyWrapper = styled.div`
+  @media (min-width: 768px) {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+  @media (min-width: 1024px) {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+`;
 export const ResultTitle = styled.h3`
   font-size: 0.6em;
   text-align: center;
   font-weight: 500;
   color: ${({ theme }) => theme.secondaryColor};
   margin-bottom: 0.3em;
+  @media (min-width: 768px) {
+    font-size: 1.1em;
+  }
+  @media (min-width: 1024px) {
+    font-size: 1.5em;
+  }
 `;
 
 export const LoadingWrapper = styled.div`
